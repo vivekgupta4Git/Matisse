@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.engine.ImageEngine;
 
@@ -49,7 +50,11 @@ public class PicassoEngine implements ImageEngine {
                 .centerInside().into(imageView);
     }
 
-    @Override
+  @Override public void loadLargeImage(Context context, int resizeX, int resizeY, SubsamplingScaleImageView imageView, Uri uri) {
+
+  }
+
+  @Override
     public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
         loadImage(context, resizeX, resizeY, imageView, uri);
     }

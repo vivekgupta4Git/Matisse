@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 /**
  * Image loader interface. There are predefined {@link com.zhihu.matisse.engine.impl.GlideEngine}
@@ -61,7 +62,10 @@ public interface ImageEngine {
      */
     void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri);
 
-    /**
+
+    void loadLargeImage(Context context, int resizeX, int resizeY, SubsamplingScaleImageView imageView, Uri uri);
+
+  /**
      * Load a gif image resource.
      *
      * @param context   Context
