@@ -16,14 +16,6 @@ public class SingleMediaScanner implements MediaScannerConnection.MediaScannerCo
     private String mPath;
     private ScanListener mListener;
 
-    public interface ScanListener {
-
-        /**
-         * scan finish
-         */
-        void onScanFinish();
-    }
-
     public SingleMediaScanner(Context context, String mPath, ScanListener mListener) {
         this.mPath = mPath;
         this.mListener = mListener;
@@ -31,14 +23,24 @@ public class SingleMediaScanner implements MediaScannerConnection.MediaScannerCo
         this.mMsc.connect();
     }
 
-    @Override public void onMediaScannerConnected() {
+    @Override
+    public void onMediaScannerConnected() {
         mMsc.scanFile(mPath, null);
     }
 
-    @Override public void onScanCompleted(String mPath, Uri mUri) {
+    @Override
+    public void onScanCompleted(String mPath, Uri mUri) {
         mMsc.disconnect();
         if (mListener != null) {
             mListener.onScanFinish();
         }
+    }
+
+    public interface ScanListener {
+
+        /**
+         * scan finish
+         */
+        void onScanFinish();
     }
 }

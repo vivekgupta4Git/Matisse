@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
+
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 /**
@@ -65,7 +66,7 @@ public interface ImageEngine {
 
     void loadLargeImage(Context context, int resizeX, int resizeY, SubsamplingScaleImageView imageView, Uri uri);
 
-  /**
+    /**
      * Load a gif image resource.
      *
      * @param context   Context

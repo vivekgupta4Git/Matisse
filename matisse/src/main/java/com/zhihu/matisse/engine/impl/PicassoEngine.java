@@ -50,11 +50,12 @@ public class PicassoEngine implements ImageEngine {
                 .centerInside().into(imageView);
     }
 
-  @Override public void loadLargeImage(Context context, int resizeX, int resizeY, SubsamplingScaleImageView imageView, Uri uri) {
+    @Override
+    public void loadLargeImage(Context context, int resizeX, int resizeY, SubsamplingScaleImageView imageView, Uri uri) {
 
-  }
+    }
 
-  @Override
+    @Override
     public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
         loadImage(context, resizeX, resizeY, imageView, uri);
     }

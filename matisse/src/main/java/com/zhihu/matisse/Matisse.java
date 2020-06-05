@@ -18,9 +18,11 @@ package com.zhihu.matisse;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.ui.MatisseActivity;
 
 import java.lang.ref.WeakReference;
@@ -148,4 +150,7 @@ public final class Matisse {
         return mFragment != null ? mFragment.get() : null;
     }
 
+    public void performCapture(CaptureStrategy captureStrategy, int requestCode) {
+        choose(MimeType.ofImage(), false).capture(true).captureStrategy(captureStrategy).forCapture(requestCode);
+    }
 }
