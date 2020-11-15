@@ -24,6 +24,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.zhihu.matisse.R;
 import com.zhihu.matisse.internal.entity.SelectionSpec;
 import com.zhihu.matisse.internal.ui.adapter.AlbumMediaAdapter;
 import com.zhihu.matisse.internal.utils.MediaStoreCompat;
@@ -67,9 +68,24 @@ public class CaptureDelegateActivity extends AppCompatActivity implements AlbumM
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.matisse_anim_empty, R.anim.matisse_anim_empty);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.matisse_anim_empty, R.anim.matisse_anim_empty);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
+        if (resultCode != RESULT_OK){
+            finish();
+            return;
+        }
         if (requestCode == MatisseActivity.REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
             Uri contentUri = mMediaStoreCompat.getCurrentPhotoUri();
