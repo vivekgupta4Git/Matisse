@@ -88,7 +88,7 @@ public class AlbumMediaLoader extends CursorLoader {
                     + " AND "
                     + MediaStore.MediaColumns.MIME_TYPE + "=?"
                     + " AND " + MediaStore.MediaColumns.SIZE + ">0";
-    private static final String ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+    private static final String ORDER_BY = MediaStore.Images.Media.DATE_MODIFIED + " DESC";
     // ===============================================================
     private final boolean mEnableCapture;
 

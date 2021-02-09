@@ -105,7 +105,7 @@ public class AlbumLoader extends CursorLoader {
             MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
                     + " AND " + MediaStore.MediaColumns.SIZE + ">0"
                     + " AND " + MediaStore.MediaColumns.MIME_TYPE + "=?";
-    private static final String BUCKET_ORDER_BY = MediaStore.Images.Media.DATE_ADDED + " DESC";
+    private static final String BUCKET_ORDER_BY = MediaStore.Images.Media.DATE_MODIFIED + " DESC";
 
     private AlbumLoader(Context context, String selection, String[] selectionArgs) {
         super(
