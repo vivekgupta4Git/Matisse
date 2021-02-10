@@ -130,7 +130,12 @@ public class MatisseActivity extends AppCompatActivity
             TypedArray ta = getTheme().obtainStyledAttributes(new int[]{R.attr.album_element_color});
             int color = ta.getColor(0, 0);
             ta.recycle();
-            navigationIcon.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
+            if (Build.VERSION.SDK_INT >= 29){
+                navigationIcon.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
+            }else {
+                //noinspection deprecation
+                navigationIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            }
         }
 
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
