@@ -25,6 +25,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.core.os.EnvironmentCompat;
 import androidx.fragment.app.Fragment;
@@ -41,18 +46,18 @@ import java.util.Locale;
 
 public class MediaStoreCompat {
 
-    private final WeakReference<Activity> mContext;
+    private final WeakReference<AppCompatActivity> mContext;
     private final WeakReference<Fragment> mFragment;
     private CaptureStrategy mCaptureStrategy;
     private Uri mCurrentPhotoUri;
     private String mCurrentPhotoPath;
 
-    public MediaStoreCompat(Activity activity) {
+    public MediaStoreCompat(AppCompatActivity activity) {
         mContext = new WeakReference<>(activity);
         mFragment = null;
     }
 
-    public MediaStoreCompat(Activity activity, Fragment fragment) {
+    public MediaStoreCompat(AppCompatActivity activity, Fragment fragment) {
         mContext = new WeakReference<>(activity);
         mFragment = new WeakReference<>(fragment);
     }
@@ -72,7 +77,8 @@ public class MediaStoreCompat {
         mCaptureStrategy = strategy;
     }
 
-    public void dispatchCaptureIntent(Context context, int requestCode) {
+
+    public void dispatchCaptureIntent(AppCompatActivity context, int requestCode) {
         Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (captureIntent.resolveActivity(context.getPackageManager()) != null) {
             File photoFile = null;
