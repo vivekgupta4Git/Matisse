@@ -20,12 +20,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.zhihu.matisse.engine.ImageEngine;
 import com.zhihu.matisse.filter.Filter;
@@ -329,6 +336,7 @@ public final class SelectionCreator {
      *
      * @param requestCode Identity of the request Activity or Fragment.
      */
+    @Deprecated
     public void forResult(int requestCode) {
         Activity activity = mMatisse.getActivity();
         if (activity == null) {
@@ -345,6 +353,16 @@ public final class SelectionCreator {
         }
     }
 
+    public void forResult(ActivityResultLauncher<Intent> launcher) {
+        Activity activity = mMatisse.getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, MatisseActivity.class);
+        launcher.launch(intent);
+    }
+
     public SelectionCreator showPreview(boolean showPreview) {
         mSelectionSpec.showPreview = showPreview;
         return this;
@@ -353,6 +371,7 @@ public final class SelectionCreator {
     /**
      * take photo directly
      */
+    @Deprecated
     public void forCapture(int requestCode) {
         Activity activity = mMatisse.getActivity();
         if (activity == null) {
@@ -367,6 +386,16 @@ public final class SelectionCreator {
         } else {
             activity.startActivityForResult(intent, requestCode);
         }
+    }
+
+    public void forCapture(ActivityResultLauncher<Intent> launcher) {
+        Activity activity = mMatisse.getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, CaptureDelegateActivity.class);
+        launcher.launch(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

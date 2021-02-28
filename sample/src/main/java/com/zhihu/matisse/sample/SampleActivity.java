@@ -28,6 +28,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,10 +48,28 @@ import java.util.List;
 
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int REQUEST_CODE_CHOOSE = 23;
 
     private UriAdapter mAdapter;
+    private Matisse matisse;
+    private final ActivityResultLauncher<Intent> captureLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override public void onActivityResult(ActivityResult result) {
+                Intent data = result.getData();
+                mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                Log.e("On capture  ", String.valueOf(Matisse.obtainOriginalState(data)));
+            }
+        });
 
+    private final ActivityResultLauncher<Intent> pickerLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override public void onActivityResult(ActivityResult result) {
+                Intent data = result.getData();
+                mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+                Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
+            }
+        });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +82,13 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
+
+        matisse = Matisse.from(SampleActivity.this);
+            //.registerCapture(result -> {
+            //    Intent data = result.getData();
+            //    mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
+            //    Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
+            //});
     }
 
     // <editor-fold defaultstate="collapsed" desc="onClick">
@@ -80,8 +109,8 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     private void startAction(View v) {
         switch (v.getId()) {
             case R.id.capture:
-                Matisse.from(SampleActivity.this)
-                        .performCapture(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"), REQUEST_CODE_CHOOSE);
+                matisse.performCapture(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider",
+                                "test"), captureLauncher);
                 break;
             case R.id.zhihu:
                 Matisse.from(SampleActivity.this)
@@ -106,7 +135,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                         .setOnCheckedListener(isChecked -> {
                             Log.e("isChecked", "onCheck: isChecked=" + isChecked);
                         })
-                        .forResult(REQUEST_CODE_CHOOSE);
+                        .forResult(pickerLauncher);
                 break;
             case R.id.dracula:
                 Matisse.from(SampleActivity.this)
@@ -118,7 +147,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                         .originalEnable(true)
                         .maxOriginalSize(10)
                         .imageEngine(new PicassoEngine())
-                        .forResult(REQUEST_CODE_CHOOSE);
+                        .forResult(pickerLauncher);
                 break;
             case R.id.only_gif:
                 Matisse.from(SampleActivity.this)
@@ -134,21 +163,12 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                         .originalEnable(true)
                         .maxOriginalSize(10)
                         .autoHideToolbarOnSingleTap(true)
-                        .forResult(REQUEST_CODE_CHOOSE);
+                        .forResult(pickerLauncher);
                 break;
             default:
                 break;
         }
         mAdapter.setData(null, null);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
-            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
-        }
     }
 
     private static class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {
