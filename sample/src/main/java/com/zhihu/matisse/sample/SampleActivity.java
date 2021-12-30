@@ -66,6 +66,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         new ActivityResultCallback<ActivityResult>() {
             @Override public void onActivityResult(ActivityResult result) {
                 Intent data = result.getData();
+                if (data == null) return;
                 mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
                 Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
             }

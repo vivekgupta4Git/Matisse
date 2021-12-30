@@ -18,6 +18,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.zhihu.matisse.internal.ui.widget.PreviewViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black" />
+
     <FrameLayout
         android:id="@+id/bottom_toolbar"
         android:layout_width="match_parent"
@@ -117,11 +123,5 @@
             android:layout_height="wrap_content"
             android:padding="10dp" />
     </FrameLayout>
-
-    <com.zhihu.matisse.internal.ui.widget.PreviewViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black" />
 
 </RelativeLayout>
