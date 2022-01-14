@@ -35,7 +35,6 @@ import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.entity.SelectionSpec;
 import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 import com.zhihu.matisse.listener.OnFragmentInteractionListener;
-import com.zhihu.matisse.utils.ImageUtil;
 
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
@@ -87,7 +86,7 @@ public class PreviewItemFragment extends Fragment {
 
         SubsamplingScaleImageView imageLong = (SubsamplingScaleImageView) view.findViewById(R.id.image_view_long);
         ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
-        if (ImageUtil.isLongBitmap(requireContext(), item.getContentUri())) {
+        if (!item.isGif()) {
             imageLong.setExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             imageLong.setVisibility(View.VISIBLE);
             image.setVisibility(View.GONE);
