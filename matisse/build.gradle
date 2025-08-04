@@ -30,6 +30,14 @@ android {
     lintOptions {
         abortOnError false
     }
+    android {
+        publishing {
+            // Specify that we want to publish the 'release' variant
+            singleVariant("release") {
+                withSourcesJar()
+            }
+        }
+    }
     namespace 'com.zhihu.matisse'
 }
 
@@ -45,15 +53,15 @@ dependencies {
     compileOnly 'com.github.bumptech.glide:glide:4.16.0'
     compileOnly 'com.squareup.picasso:picasso:2.71828'
 }
-afterEvaluate{
-    publishing{
-        publications{
-            release(MavenPublication){
-                from components.findByName('release')
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
 
-                groupId='com.github.vivekgupta4git'
+                groupId = 'com.github.vivekgupta4git'
                 artifactId = 'matisse'
-                version = '1.0'
+                version = '1.0.1'
             }
         }
     }
