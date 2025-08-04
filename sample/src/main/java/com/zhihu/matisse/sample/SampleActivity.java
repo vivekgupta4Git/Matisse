@@ -17,9 +17,11 @@ package com.zhihu.matisse.sample;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,8 +37,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -47,8 +47,6 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import java.util.List;
 
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
-
-
     private UriAdapter mAdapter;
     private Matisse matisse;
     private final ActivityResultLauncher<Intent> captureLauncher = registerForActivityResult(
@@ -96,79 +94,68 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     @SuppressLint("CheckResult")
     @Override
     public void onClick(final View v) {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
-            if (aBoolean) {
-                startAction(v);
-            } else {
-                Toast.makeText(SampleActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG).show();
-            }
-        }, Throwable::printStackTrace);
+        startAction(v);
     }
-    // </editor-fold>
 
     private void startAction(View v) {
-        switch (v.getId()) {
-            case R.id.capture:
-                matisse.performCapture(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider",
-                                "test"), captureLauncher);
-                break;
-            case R.id.zhihu:
-                Matisse.from(SampleActivity.this)
-                        .choose(MimeType.ofImage(), false)
-                        .showSingleMediaType(true)
-                        .countable(true)
-                        .capture(true)
-                        .captureStrategy(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
-                        .maxSelectable(9)
-                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                        .thumbnailScale(0.85f)
-                        .imageEngine(new GlideEngine())
-                        .setOnSelectedListener((uriList, pathList) -> {
-                            Log.e("onSelected", "onSelected: pathList=" + pathList);
-                        })
-                        .showSingleMediaType(true)
-                        .originalEnable(true)
-                        .maxOriginalSize(10)
-                        .autoHideToolbarOnSingleTap(true)
-                        .setOnCheckedListener(isChecked -> {
-                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                        })
-                        .forResult(pickerLauncher);
-                break;
-            case R.id.dracula:
-                Matisse.from(SampleActivity.this)
-                        .choose(MimeType.ofImage())
-                        .theme(R.style.Matisse_Dracula)
-                        .countable(false)
-                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                        .maxSelectable(9)
-                        .originalEnable(true)
-                        .maxOriginalSize(10)
-                        .imageEngine(new PicassoEngine())
-                        .forResult(pickerLauncher);
-                break;
-            case R.id.only_gif:
-                Matisse.from(SampleActivity.this)
-                        .choose(MimeType.of(MimeType.GIF), false)
-                        .countable(true)
-                        .maxSelectable(9)
-                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                        .thumbnailScale(0.85f)
-                        .imageEngine(new GlideEngine())
-                        .showSingleMediaType(true)
-                        .originalEnable(true)
-                        .maxOriginalSize(10)
-                        .autoHideToolbarOnSingleTap(true)
-                        .forResult(pickerLauncher);
-                break;
-            default:
-                break;
+        int id = v.getId();
+
+        if (id == R.id.capture) {
+            matisse.performCapture(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"), captureLauncher);
+        } else if (id == R.id.zhihu) {
+            Matisse.from(SampleActivity.this)
+                    .choose(MimeType.ofImage(), false)
+                    .showSingleMediaType(true)
+                    .countable(true)
+                    .capture(true)
+                    .captureStrategy(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                    .maxSelectable(9)
+                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .setOnSelectedListener((uriList, pathList) -> {
+                        Log.e("onSelected", "onSelected: pathList=" + pathList);
+                    })
+                    .showSingleMediaType(true)
+                    .originalEnable(true)
+                    .maxOriginalSize(10)
+                    .autoHideToolbarOnSingleTap(true)
+                    .setOnCheckedListener(isChecked -> {
+                        Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                    })
+                    .forResult(pickerLauncher);
+        } else if (id == R.id.dracula) {
+            Matisse.from(SampleActivity.this)
+                    .choose(MimeType.ofImage())
+                    .theme(com.zhihu.matisse.R.style.Matisse_Dracula)
+                    .countable(false)
+                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                    .maxSelectable(9)
+                    .originalEnable(true)
+                    .maxOriginalSize(10)
+                    .imageEngine(new PicassoEngine())
+                    .forResult(pickerLauncher);
+        } else if (id == R.id.only_gif) {
+            Matisse.from(SampleActivity.this)
+                    .choose(MimeType.of(MimeType.GIF), false)
+                    .countable(true)
+                    .maxSelectable(9)
+                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .showSingleMediaType(true)
+                    .originalEnable(true)
+                    .maxOriginalSize(10)
+                    .autoHideToolbarOnSingleTap(true)
+                    .forResult(pickerLauncher);
+        } else {
+            // Default case
         }
+
         mAdapter.setData(null, null);
     }
 

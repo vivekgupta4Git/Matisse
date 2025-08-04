@@ -14,39 +14,50 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.lwj1994'
+apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion 26
+        targetSdkVersion 35
+        compileSdk 35
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     lintOptions {
         abortOnError false
     }
+    namespace 'com.zhihu.matisse'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "androidx.appcompat:appcompat:1.2.0"
-    implementation "androidx.fragment:fragment:1.3.0"
-    implementation "androidx.annotation:annotation:1.1.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.7.1"
+    implementation "androidx.fragment:fragment:1.8.8"
+    implementation "androidx.annotation:annotation:1.9.1"
+    implementation "androidx.recyclerview:recyclerview:1.4.0"
     implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
-    compileOnly 'com.github.bumptech.glide:glide:4.11.0'
-    compileOnly 'com.squareup.picasso:picasso:2.5.2'
+    compileOnly 'com.github.bumptech.glide:glide:4.16.0'
+    compileOnly 'com.squareup.picasso:picasso:2.71828'
 }
+afterEvaluate{
+    publishing{
+        publications{
+            release(MavenPublication){
+                from components.findByName('release')
 
+                groupId='com.github.vivekgupta4git'
+                artifactId = 'matisse'
+                version = '1.0'
+            }
+        }
+    }
+}
 // jcenter configuration for novoda's bintray-release
 // $ ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
 //publish {
@@ -58,7 +69,7 @@ dependencies {
 //    website = 'https://www.zhihu.com/'
 //}
 
-task javadoc(type: Javadoc) {
+tasks.register('javadoc', Javadoc) {
     options.encoding = "utf-8"
 }
 
@@ -66,12 +77,12 @@ task javadoc(type: Javadoc) {
 //    toolVersion = '7.6.1'
 //}
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     options.addStringOption('Xdoclint:none', '-quiet')
     options.addStringOption('encoding', 'UTF-8')
 }
 
-task checkstyle(type: Checkstyle) {
+tasks.register('checkstyle', Checkstyle) {
     description 'Runs Checkstyle inspection against matisse sourcesets.'
     group = 'Code Quality'
     configFile rootProject.file('checkstyle.xml')

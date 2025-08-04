@@ -45,6 +45,9 @@
         </item>
         <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
         <item name="capture.textColor">@color/zhihu_capture</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Matisse.TransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -57,6 +60,9 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Toolbar.Zhihu" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -99,6 +105,9 @@
         <item name="android:listPopupWindowStyle">@style/Popup.Dracula</item>
         <item name="listPopupWindowStyle">@style/Popup.Dracula</item>
         <item name="capture.textColor">@color/dracula_capture</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Toolbar.Dracula" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

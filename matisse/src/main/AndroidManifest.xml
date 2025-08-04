@@ -13,8 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhihu.matisse">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
         <activity android:name="com.zhihu.matisse.ui.MatisseActivity" />
@@ -24,7 +23,9 @@
         <activity android:name="com.zhihu.matisse.internal.ui.AlbumPreviewActivity" />
         <activity android:name="com.zhihu.matisse.internal.ui.SelectedPreviewActivity" />
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 </manifest>
