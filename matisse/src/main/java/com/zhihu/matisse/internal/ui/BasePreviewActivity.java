@@ -79,12 +79,14 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(SelectionSpec.getInstance().themeId);
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
         if (!SelectionSpec.getInstance().hasInited) {
             setResult(RESULT_CANCELED);
             finish();
             return;
         }
-        WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+        setContentView(R.layout.activity_media_preview);
+
         View root = findViewById(R.id.preview_root);
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
             Insets bars = insets.getInsets(
@@ -95,7 +97,6 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             return WindowInsetsCompat.CONSUMED;
         });
 
-        setContentView(R.layout.activity_media_preview);
         if (Platform.hasKitKat()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
