@@ -1,14 +1,11 @@
-[![](https://jitpack.io/v/lwj1994/Matisse.svg)](https://jitpack.io/#lwj1994/Matisse)
+[![](https://jitpack.io/v/vivekgupta4git/matisse.svg)](https://jitpack.io/#vivekgupta4git/matisse)
 
 # Matisse
 
-fork from https://github.com/zhihu/Matisse
+fork from https://github.com/lwj1994/Matisse
 
-* Order by edit time
-* Separate the capture
-* Fix crash when loading large image
-* Adapt the Result Api
-
+* updated dependencies
+* added support for android 15 inset handling
 
 ## How to
 
@@ -28,51 +25,6 @@ Add it in your root build.gradle at the end of repositories:
 ### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.lwj1994:Matisse:${latestVersion}'
+	         implementation 'com.github.vivekgupta4git:matisse:1.0.3'
 	}
-```
-
-## Usage
-### picker
-```
-// pickerLauncher
-private final ActivityResultLauncher<Intent> pickerLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>() {
-            @Override public void onActivityResult(ActivityResult result) {
-                if (result.resultCode != Activity.RESULT_OK) {
-                  return@registerForActivityResult
-                }
-                Intent data = result.getData();
-                mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
-                Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
-            }
-        });
-
-Matisse.from(this)
-       .choose(MimeType.ofImage())
-       // ....
-       .forResult(pickerLauncher);
-```
-
-
-### capture
-you can directly call capture
-```
-// captureLauncher
-private final ActivityResultLauncher<Intent> captureLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>() {
-            @Override public void onActivityResult(ActivityResult result) {
-                if (result.resultCode != Activity.RESULT_OK) {
-                  return@registerForActivityResult
-                }
-                Intent data = result.getData();
-                mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
-                Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
-            }
-        });
-
-Matisse.from(SampleActivity.this)
-       .performCapture(new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"), captureLauncher);
 ```
